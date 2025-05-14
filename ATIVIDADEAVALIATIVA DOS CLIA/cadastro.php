@@ -1,3 +1,13 @@
+<?php
+
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+  include 'Usuario.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -66,10 +76,28 @@
     }
   </style>
 </head>
+
+<?php
+    function cadastrar_usuario() {
+      $nome = $_REQUEST["nome"];
+      $senha = $_REQUEST["senha"];
+      $email = $_REQUEST["email"];
+
+      $usuario = new Usuario($nome, $email, $senha);
+      $usuario->save();
+
+      echo "Usuário cadastrado com sucesso.";
+    }
+
+    if (isset($_REQUEST["nome"]) || isset($_REQUEST["senha"]) || isset($_REQUEST["email"])) {
+      cadastrar_usuario();
+    }
+?>
+
 <body>
   <div class="container">
     <h2>Cadastro de Usuário</h2>
-    <form action="#" method="post">
+    <form action="cadastro.php" method="post">
       <div class="form-group">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
